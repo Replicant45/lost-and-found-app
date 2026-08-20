@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post an Item - Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Lost & Found</h1>
+    <a href="index.html" class="btn">← Back to Items</a>
+  </header>
+
+  <main>
+    <form id="item-form" class="form-card">
+      <label>Type</label>
+      <select id="type" required>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+
+      <label>Title</label>
+      <input type="text" id="title" placeholder="e.g. Black Wallet" required>
+
+      <label>Description</label>
+      <textarea id="description" placeholder="Any details that help identify it" required></textarea>
+
+      <label>Category</label>
+      <input type="text" id="category" placeholder="e.g. Electronics, Accessories" required>
+
+      <label>Location</label>
+      <input type="text" id="location" placeholder="Where it was lost/found" required>
+
+      <label>Date</label>
+      <input type="date" id="date" required>
+
+      <label>Contact Info</label>
+      <input type="text" id="contactInfo" placeholder="Email or phone number" required>
+      <label>Photo (optional)</label>
+      <input type="file" id="image" accept="image/*">
+
+      <button type="submit" class="btn">Submit</button>
+      <p id="form-message"></p>
+    </form>
+  </main>
+
+  <script src="post.js"></script>
+</body>
+</html>

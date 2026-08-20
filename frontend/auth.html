@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup - Lost & Found</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Lost & Found</h1>
+    <a href="index.html" class="btn">← Back to Items</a>
+  </header>
+
+  
+  <main>
+    <div class="auth-tabs">
+      <button id="show-login" class="tab-btn active">Login</button>
+      <button id="show-signup" class="tab-btn">Signup</button>
+    </div>
+
+    <form id="login-form" class="form-card">
+      <label>Email</label>
+      <input type="email" id="login-email" required>
+      <label>Password</label>
+      <input type="password" id="login-password" required>
+      <button type="submit" class="btn">Login</button>
+      <p><a href="#" id="show-forgot">Forgot Password?</a></p>
+      <p id="login-message"></p>
+    </form>
+
+    <form id="signup-form" class="form-card" style="display:none;">
+      <label>Name</label>
+      <input type="text" id="signup-name" required>
+      <label>Email</label>
+      <input type="email" id="signup-email" required>
+      <label>Password</label>
+      <input type="password" id="signup-password" required>
+      <button type="submit" class="btn">Signup</button>
+      <p id="signup-message"></p>
+    </form>
+
+    <form id="forgot-form" class="form-card" style="display:none;">
+      <label>Enter your account email</label>
+      <input type="email" id="forgot-email" required>
+      <button type="submit" class="btn">Send Reset Link</button>
+      <p><a href="#" id="back-to-login">Back to Login</a></p>
+      <p id="forgot-message"></p>
+    </form>
+
+    <form id="reset-form" class="form-card" style="display:none;">
+      <label>New Password</label>
+      <input type="password" id="reset-password" required>
+      <button type="submit" class="btn">Reset Password</button>
+      <p id="reset-message"></p>
+    </form>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>
+
+
