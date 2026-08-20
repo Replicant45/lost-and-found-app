@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api/items';
+// const API_URL = 'http://localhost:5000/api/items';
+const API_URL = 'https://lost-and-found-app-ud84.onrender.com/api/items';
 
 const form = document.getElementById('item-form');
 const message = document.getElementById('form-message');

@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api/auth';
+// const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'https://lost-and-found-app-ud84.onrender.com/api/auth';
 
 // Tab switching
 const loginForm = document.getElementById('login-form');

@@ -32,7 +32,8 @@ updateAuthUI();
 
 
 
-const API_URL = 'http://localhost:5000/api/items';
+// const API_URL = 'http://localhost:5000/api/items';
+const API_URL = 'https://lost-and-found-app-ud84.onrender.com/api/items';
 
 let allItems = []; // store all items so we can filter without re-fetching
 
