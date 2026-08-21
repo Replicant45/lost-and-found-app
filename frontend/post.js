@@ -1,8 +1,23 @@
+function showToast(message, type = 'success') {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 3000);
+}
+
 // const API_URL = 'http://localhost:5000/api/items';
 const API_URL = 'https://lost-and-found-app-ud84.onrender.com/api/items';
 
 const form = document.getElementById('item-form');
-const message = document.getElementById('form-message');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -10,8 +25,7 @@ form.addEventListener('submit', async (e) => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    message.textContent = 'Please login first to post an item.';
-    message.style.color = 'red';
+    showToast('Please login first to post an item.', 'error');
     return;
   }
 
@@ -42,8 +56,7 @@ form.addEventListener('submit', async (e) => {
 
     if (!res.ok) throw new Error('Failed to submit item');
 
-    message.textContent = 'Item posted successfully!';
-    message.style.color = 'green';
+    showToast('Item posted successfully!', 'success');
     form.reset();
 
     setTimeout(() => {
@@ -51,8 +64,7 @@ form.addEventListener('submit', async (e) => {
     }, 1000);
 
   } catch (err) {
-    message.textContent = 'Something went wrong. Please try again.';
-    message.style.color = 'red';
+    showToast('Something went wrong. Please try again.', 'error');
     console.error(err);
   }
 });

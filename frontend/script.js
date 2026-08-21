@@ -43,6 +43,7 @@ async function loadItems() {
   try {
     const res = await fetch(API_URL);
     allItems = await res.json();
+    checkForUpdates(allItems);
     renderItems(allItems);
   } catch (err) {
     container.innerHTML = '<p>Failed to load items. Is the backend server running?</p>';
@@ -50,16 +51,75 @@ async function loadItems() {
   }
 }
 
+// --- NEW-SINCE-LAST-VISIT NOTIFICATION ---
+function checkForUpdates(items) {
+  const STORAGE_KEY = 'lf_last_seen_items';
+  const previousRaw = localStorage.getItem(STORAGE_KEY);
+  const previous = previousRaw ? JSON.parse(previousRaw) : null;
+
+  // Build a quick lookup of current items' id -> status
+  const currentSnapshot = items.map(item => ({ id: item._id, status: item.status }));
+
+  if (previous) {
+    const previousMap = {};
+    previous.forEach(p => { previousMap[p.id] = p.status; });
+
+    const newItems = items.filter(item => !(item._id in previousMap));
+    const newlyResolved = items.filter(item =>
+      item._id in previousMap &&
+      previousMap[item._id] === 'open' &&
+      item.status === 'resolved'
+    );
+
+    showUpdateBanner(newItems.length, newlyResolved.length);
+  }
+
+  // Save current snapshot for next visit
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentSnapshot));
+}
+
+function showUpdateBanner(newCount, resolvedCount) {
+  const existing = document.getElementById('update-banner');
+  if (existing) existing.remove();
+
+  if (newCount === 0 && resolvedCount === 0) return;
+
+  const parts = [];
+  if (newCount > 0) parts.push(`${newCount} new item${newCount > 1 ? 's' : ''} posted`);
+  if (resolvedCount > 0) parts.push(`${resolvedCount} item${resolvedCount > 1 ? 's' : ''} marked resolved`);
+
+  const banner = document.createElement('div');
+  banner.id = 'update-banner';
+  banner.className = 'update-banner';
+  banner.innerHTML = `
+    <span>🔔 ${parts.join(' · ')} since your last visit</span>
+    <button id="dismiss-banner" aria-label="Dismiss">✕</button>
+  `;
+
+  const main = document.querySelector('main');
+  main.insertBefore(banner, main.firstChild);
+
+  document.getElementById('dismiss-banner').addEventListener('click', () => {
+    banner.remove();
+  });
+}
+
 function renderItems(items) {
   const container = document.getElementById('items-container');
 
   if (items.length === 0) {
-    container.innerHTML = '<p>No items found.</p>';
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3>Nothing here yet</h3>
+        <p>No items match your search — try a different keyword, or be the first to post one.</p>
+      </div>
+    `;
     return;
   }
 
- container.innerHTML = items.map(item => `
-    <div class="item-card ${item.status === 'resolved' ? 'resolved' : ''}">
+  container.innerHTML = items.map((item, index) => `
+    <div class="item-card ${item.status === 'resolved' ? 'resolved' : ''}" style="animation-delay: ${index * 0.06}s">
       ${item.imageUrl ? `<img src="${item.imageUrl}" class="item-image" alt="${item.title}">` : ''}
       <span class="tag ${item.type}">${item.type.toUpperCase()}</span>
       

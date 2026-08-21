@@ -1,4 +1,19 @@
-// const API_URL = 'http://localhost:5000/api/auth';
+function showToast(message, type = 'success') {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 3000);
+}
+
 const API_URL = 'https://lost-and-found-app-ud84.onrender.com/api/auth';
 
 // Tab switching
@@ -24,7 +39,6 @@ showSignup.addEventListener('click', () => {
 // LOGIN
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const message = document.getElementById('login-message');
 
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
@@ -39,24 +53,21 @@ loginForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      message.textContent = data.error || 'Login failed';
-      message.style.color = 'red';
+      showToast(data.error || 'Login failed', 'error');
       return;
     }
 
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
 
-    message.textContent = 'Login successful!';
-    message.style.color = 'green';
+    showToast('Login successful!', 'success');
 
     setTimeout(() => {
       window.location.href = 'index.html';
     }, 800);
 
   } catch (err) {
-    message.textContent = 'Something went wrong. Try again.';
-    message.style.color = 'red';
+    showToast('Something went wrong. Try again.', 'error');
     console.error(err);
   }
 });
@@ -64,7 +75,6 @@ loginForm.addEventListener('submit', async (e) => {
 // SIGNUP
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const message = document.getElementById('signup-message');
 
   const name = document.getElementById('signup-name').value;
   const email = document.getElementById('signup-email').value;
@@ -80,24 +90,21 @@ signupForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      message.textContent = data.error || 'Signup failed';
-      message.style.color = 'red';
+      showToast(data.error || 'Signup failed', 'error');
       return;
     }
 
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
 
-    message.textContent = 'Account created!';
-    message.style.color = 'green';
+    showToast('Account created!', 'success');
 
     setTimeout(() => {
       window.location.href = 'index.html';
     }, 800);
 
   } catch (err) {
-    message.textContent = 'Something went wrong. Try again.';
-    message.style.color = 'red';
+    showToast('Something went wrong. Try again.', 'error');
     console.error(err);
   }
 });
@@ -127,7 +134,6 @@ backToLogin.addEventListener('click', (e) => {
 // FORGOT PASSWORD SUBMIT
 forgotForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const message = document.getElementById('forgot-message');
   const email = document.getElementById('forgot-email').value;
 
   try {
@@ -139,12 +145,10 @@ forgotForm.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    message.textContent = data.message || 'If that email is registered, a reset link has been sent.';
-    message.style.color = 'green';
+    showToast(data.message || 'If that email is registered, a reset link has been sent.', 'success');
 
   } catch (err) {
-    message.textContent = 'Something went wrong. Try again.';
-    message.style.color = 'red';
+    showToast('Something went wrong. Try again.', 'error');
     console.error(err);
   }
 });
@@ -152,7 +156,6 @@ forgotForm.addEventListener('submit', async (e) => {
 // RESET PASSWORD SUBMIT (runs if page loaded with ?token=...)
 resetForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const message = document.getElementById('reset-message');
   const newPassword = document.getElementById('reset-password').value;
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -168,21 +171,18 @@ resetForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      message.textContent = data.message || 'Reset failed';
-      message.style.color = 'red';
+      showToast(data.message || 'Reset failed', 'error');
       return;
     }
 
-    message.textContent = 'Password reset! Redirecting to login...';
-    message.style.color = 'green';
+    showToast('Password reset! Redirecting to login...', 'success');
 
     setTimeout(() => {
       window.location.href = 'auth.html';
     }, 1200);
 
   } catch (err) {
-    message.textContent = 'Something went wrong. Try again.';
-    message.style.color = 'red';
+    showToast('Something went wrong. Try again.', 'error');
     console.error(err);
   }
 });
@@ -200,4 +200,3 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.auth-tabs').style.display = 'none';
   }
 });
-
