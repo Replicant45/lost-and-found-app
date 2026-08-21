@@ -493,3 +493,99 @@ main {
     width: 100%;
   }
 }
+
+
+
+/* Brand header upgrade */
+header {
+  background: linear-gradient(135deg, #1F3557 0%, #16294a 60%, #0F1F38 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(225, 169, 62, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header h1 {
+  position: relative;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+header h1::before {
+  content: '🔎';
+  margin-right: 10px;
+  font-size: 0.85em;
+  display: inline-block;
+}
+
+
+
+
+@media (max-width: 640px) {
+  .btn-small {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+  .card-actions {
+    gap: 12px;
+  }
+}
+
+/* Brand header upgrade */
+header {
+  background: linear-gradient(135deg, #1F3557 0%, #16294a 60%, #0F1F38 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(225, 169, 62, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header h1 {
+  position: relative;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+header h1::before {
+  content: '🔎';
+  margin-right: 10px;
+  font-size: 0.85em;
+  display: inline-block;
+}
+
+#auth-status .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  padding: 9px 18px;
+}
+
+#auth-status .btn::before {
+  content: '👤';
+  font-size: 0.9em;
+}
+
+#auth-status .btn:hover {
+  background-color: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+}
