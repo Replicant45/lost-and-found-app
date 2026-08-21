@@ -589,3 +589,21 @@ header h1::before {
   background-color: rgba(255,255,255,0.1);
   border-color: rgba(255,255,255,0.7);
 }
+
+header .btn:not(#auth-status .btn) {
+  background: linear-gradient(135deg, #2F9C8B, #268577);
+  box-shadow: 0 3px 10px rgba(47, 156, 139, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+header .btn:not(#auth-status .btn)::before {
+  content: '📌';
+  font-size: 0.9em;
+}
+
+header .btn:not(#auth-status .btn):hover {
+  box-shadow: 0 5px 16px rgba(47, 156, 139, 0.45);
+  transform: translateY(-2px);
+}
