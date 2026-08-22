@@ -127,8 +127,12 @@ function renderItems(items) {
       <h3>${item.title}</h3>
     <p class="description">${item.description}</p>
 
-      <p><strong>Category:</strong> ${item.category} · <strong>Location:</strong> ${item.location}</p>
-      <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()} · <strong>Contact:</strong> ${item.contactInfo}</p>
+          <p><strong>Category:</strong> ${item.category}</p>
+      <p><strong>Location:</strong> ${item.location}</p>
+      <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()}</p>
+      <p><strong>Contact:</strong> ${item.contactInfo}</p>
+      
+
     ${(user && (user.id === item.postedBy || user.isAdmin)) ? `
   <div class="card-actions">
     ${item.status === 'open' ? `<button class="btn-small resolve-btn" data-id="${item._id}">Mark Resolved</button>` : ''}

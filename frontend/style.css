@@ -175,7 +175,7 @@ main {
   animation: cardEnter 0.45s ease both;
 }
 
-.item-card::before {
+/* .item-card::before {
   content: '';
   position: absolute;
   top: 18px;
@@ -185,7 +185,7 @@ main {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 50%;
-}
+} */
 
 .item-card:hover {
   transform: translateY(-3px);
