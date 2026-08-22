@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Item');
+const User = require('../models/User');
 const requireAuth = require('../middleware/auth');
 const upload = require('../middleware/upload');
-
 
 // GET all items
 router.get('/', async (req, res) => {
@@ -43,9 +43,20 @@ router.post('/', requireAuth, upload.single('image'), async (req, res) => {
   }
 });
 
-// PUT (update) an item (requires login)
+// PUT (update) an item (requires login + ownership or admin)
 router.put('/:id', requireAuth, async (req, res) => {
   try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+
+    const user = await User.findById(req.userId);
+    const isOwner = item.postedBy.toString() === req.userId;
+    const isAdmin = user && user.isAdmin;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ error: 'You can only update your own items' });
+    }
+
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedItem);
   } catch (err) {
@@ -53,9 +64,20 @@ router.put('/:id', requireAuth, async (req, res) => {
   }
 });
 
-// DELETE an item (requires login)
+// DELETE an item (requires login + ownership or admin)
 router.delete('/:id', requireAuth, async (req, res) => {
   try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+
+    const user = await User.findById(req.userId);
+    const isOwner = item.postedBy.toString() === req.userId;
+    const isAdmin = user && user.isAdmin;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ error: 'You can only delete your own items' });
+    }
+
     await Item.findByIdAndDelete(req.params.id);
     res.json({ message: 'Item deleted' });
   } catch (err) {
