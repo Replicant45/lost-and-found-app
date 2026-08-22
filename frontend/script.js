@@ -130,11 +130,13 @@ function renderItems(items) {
       <p><strong>Location:</strong> ${item.location}</p>
       <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()}</p>
       <p><strong>Contact:</strong> ${item.contactInfo}</p>
-      <div class="card-actions">
-        ${item.status === 'open' ? `<button class="btn-small resolve-btn" data-id="${item._id}">Mark Resolved</button>` : ''}
-        <button class="btn-small delete-btn" data-id="${item._id}">Delete</button>
-      </div>
-    </div>
+    ${(user && (user.id === item.postedBy || user.isAdmin)) ? `
+  <div class="card-actions">
+    ${item.status === 'open' ? `<button class="btn-small resolve-btn" data-id="${item._id}">Mark Resolved</button>` : ''}
+    <button class="btn-small delete-btn" data-id="${item._id}">Delete</button>
+  </div>
+` : ''}
+
   `).join('');
 
   document.querySelectorAll('.resolve-btn').forEach(btn => {
@@ -201,3 +203,5 @@ document.getElementById('search-input').addEventListener('input', applyFilters);
 document.getElementById('type-filter').addEventListener('change', applyFilters);
 
 loadItems();
+
+

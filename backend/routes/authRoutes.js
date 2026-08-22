@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
 
     res.status(201).json({
       token,
-      user: { id: newUser._id, name: newUser.name, email: newUser.email }
+      user: { id: newUser._id, name: newUser.name, email: newUser.email, isAdmin: newUser.isAdmin }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
 
     res.json({
       token,
-      user: { id: user._id, name: user.name, email: user.email }
+      user: { id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -65,7 +65,6 @@ router.post('/forgot-password', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      // Don't reveal whether the email exists
       return res.json({ message: 'If that email is registered, a reset link has been sent.' });
     }
 
@@ -74,7 +73,6 @@ router.post('/forgot-password', async (req, res) => {
     user.resetTokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
     await user.save();
 
-    // const resetLink = `http://127.0.0.1:5500/frontend/auth.html?token=${token}`;
     const resetLink = `${process.env.FRONTEND_URL}/auth.html?token=${token}`;
     await sendResetEmail(user.email, resetLink);
 
